@@ -1,6 +1,6 @@
 # PP_3_1_4
 Для входа в систему два пользователя:
 
-1.Логин: admin пароль: admin
+1.Email: admin@mail.ru пароль: admin
 
-2.Логин: user пароль: user
+2.Email: user@mail.ru пароль: user
