@@ -17,9 +17,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-//    @NotEmpty(message = "Имя не должно быть пустым")
-//    @Size(min = 2, max = 25, message = "Имя должно быть в диапазоне от 2 до 25 символов")
-
     @NotNull
     @Column(name = "first_Name")
     private String firstName;
@@ -29,11 +26,9 @@ public class User implements UserDetails {
     @NotNull
     @Column(name = "email")
     private String email;
-//    @Min(value = 0, message = "Возраст должен быть больше 0")
     @NotNull
     @Column(name = "age")
     private byte age;
-//    @NotEmpty(message = "Password не должен быть пустым")
     @NotNull
     @Column(name = "Password")
     private String password;
@@ -96,6 +91,7 @@ public class User implements UserDetails {
     public String getUsername() {
         return email;
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

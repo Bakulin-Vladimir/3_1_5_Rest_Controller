@@ -13,16 +13,14 @@ import java.util.Set;
 @Component
 public class Util {
     private UserService userService;
+
     @Autowired
     public Util(UserService userService) {
         this.userService = userService;
-        defaultUserSave();
     }
+
     @PostConstruct
-    private void initMethod(){
-        System.out.println("!!!Пользователи были добавлены в базу данных!!!");
-    }
-    private void defaultUserSave() {
+    private void initMethod() {
         Set<Role> list1 = new HashSet<>();
         list1.add(new Role("ROLE_USER"));
         userService.saveUser(new User("Петр"
@@ -38,5 +36,6 @@ public class Util {
                 , "admin@mail.ru"
                 , (byte) 35, "admin"
                 , list2));
+        System.out.println("!!!Пользователи были добавлены в базу данных!!!");
     }
 }

@@ -31,7 +31,7 @@ public class AdminController {
     public String getUsers(Model model) {
         //Получим всех людей из DAO и передадим на отображение в представлении
         model.addAttribute("usersList", userService.readUsers());
-        return "users";
+        return "admin";
     }
 
     @GetMapping("/{id}")

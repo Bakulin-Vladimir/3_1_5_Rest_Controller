@@ -20,12 +20,14 @@
 <body>
 <div class="container" style="max-width: 1725px;height: 60px;">
     <div class="row">
-        <div th:each="Role : ${user.getRoles()}" class="col btn-link text-white font-weight-bolder" th:text="${user.getEmail()+' with roles: '+Role.getName()}" style="background-color: #343a40;padding-top: 17px;
+        <div th:each="Role : ${user.getRoles()}" class="col btn-link text-white font-weight-bolder"
+             th:text="${user.getEmail()+' with roles: '+Role.getName()}" style="background-color: #343a40;padding-top: 17px;
         padding-bottom: 10px;font-size:120%">
             Hello!!
         </div>
         <div class="col" style="background-color: #343a40;padding-top: 10px;padding-bottom: 10px;text-align: right;">
-            <button type="submit" class="btn btn-link text-white" onclick="window.location.href = '/login'">Logout</button>
+            <button type="submit" class="btn btn-link text-white" onclick="window.location.href = '/login'">Logout
+            </button>
         </div>
     </div>
 </div>

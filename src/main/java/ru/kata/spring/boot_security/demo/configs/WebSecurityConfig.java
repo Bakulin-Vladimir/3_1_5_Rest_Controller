@@ -33,24 +33,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //страницы аутентификации доступна всем
                 .antMatchers("/login").permitAll()
-//                .antMatchers("/", "/resources/**").permitAll()
                 // защищенные URL
                 .antMatchers("/user").access("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
                 .antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-//                .successHandler(successUserHandler)
+                //указываем путь до нашей формы аутентификации
+                .loginPage("/login")//
                 .loginProcessingUrl("/good")
-                .defaultSuccessUrl("/user",true)
-//                .defaultSuccessUrl("/admin")
-                .failureUrl("/login")
-//                .usernameParameter("email")
-//
                 //указываем логику обработки при логине
+                .successHandler(successUserHandler)//
+                .failureUrl("/login")
                 // даем доступ к форме логина всем
-
+                .permitAll()
                 .and()
                 .logout()
                 // разрешаем делать логаут всем
