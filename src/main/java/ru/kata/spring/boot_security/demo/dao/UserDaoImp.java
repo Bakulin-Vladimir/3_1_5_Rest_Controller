@@ -21,7 +21,7 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public Set<User> readUsers() {
-        List<User> userList = entityManager.createQuery("select u from User u").getResultList();
+        List<User> userList = entityManager.createQuery("select u from User u left join fetch u.roles").getResultList();
         Set<User> collect = userList.stream().collect(Collectors.toSet());
         return collect;
     }
@@ -48,10 +48,10 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public User findByUsername(String username) {
-        TypedQuery<User> paramname = entityManager.createQuery("select u from User u left join fetch u.roles where u.username=:paramname", User.class)
-                .setParameter("paramname", username);
-        User user = paramname.getResultList().stream().findFirst().orElse(null);
+    public User findUserByEmail(String email) {
+        TypedQuery<User> paramemail = entityManager.createQuery("select u from User u left join fetch u.roles where u.email=:paramemail", User.class)
+                .setParameter("paramemail", email);
+        User user = paramemail.getResultList().stream().findFirst().orElse(null);
         return user;
     }
 }

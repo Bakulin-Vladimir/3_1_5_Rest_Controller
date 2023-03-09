@@ -50,10 +50,7 @@ public class AdminController {
     }
 
     @PostMapping()
-    public String saveUser(@ModelAttribute("usernew") @Valid User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "new";
-        }
+    public String saveUser(@ModelAttribute("usernew") User user) {
         if (user.getRoles().stream().anyMatch(r -> r.getName().equals("ROLE_ADMIN"))) {
             user.setRoles(roleService.readRoles());
         }
@@ -70,11 +67,8 @@ public class AdminController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+    public String update(@ModelAttribute("user") User user,
                          @PathVariable("id") long id) {
-        if (bindingResult.hasErrors()) {
-            return "edit";
-        }
         if (user.getRoles().stream().anyMatch(r -> r.getName().equals("ROLE_ADMIN"))) {
             user.setRoles(roleService.readRoles());
         }

@@ -4,10 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -20,27 +17,27 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @NotEmpty(message = "Логин не должен быть пустым")
-    @Size(min = 2, max = 25, message = "Логин должен быть в диапазоне от 2 до 25 символов")
-    @Column(name = "login")
-    private String username;
-    @NotEmpty(message = "Имя не должно быть пустым")
-    @Size(min = 2, max = 25, message = "Имя должно быть в диапазоне от 2 до 25 символов")
-    @Column(name = "name")
-    private String name;
-    @Column(name = "department")
-    private String department;
-    @NotEmpty(message = "Поле Email не должно быть пустым")
-    @Email(message = "Email должен быть валидным")
+//    @NotEmpty(message = "Имя не должно быть пустым")
+//    @Size(min = 2, max = 25, message = "Имя должно быть в диапазоне от 2 до 25 символов")
+
+    @NotNull
+    @Column(name = "first_Name")
+    private String firstName;
+    @NotNull
+    @Column(name = "last_Name")
+    private String lastName;
+    @NotNull
     @Column(name = "email")
     private String email;
-    @Min(value = 0, message = "Возраст должен быть больше 0")
+//    @Min(value = 0, message = "Возраст должен быть больше 0")
+    @NotNull
     @Column(name = "age")
     private byte age;
-    @NotEmpty(message = "Password не должен быть пустым")
-    @Column(name = "password")
+//    @NotEmpty(message = "Password не должен быть пустым")
+    @NotNull
+    @Column(name = "Password")
     private String password;
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -49,23 +46,29 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String name, String department, String email, byte age, String password, Set<Role> roles) {
-        this.username = username;
-        this.name = name;
-        this.department = department;
+    public User(String firstName, String lastName, String email, byte age, String password, Set<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.age = age;
         this.password = password;
         this.roles = roles;
     }
 
-
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Set<Role> getRoles() {
@@ -83,7 +86,7 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -91,9 +94,8 @@ public class User implements UserDetails {
     }
 
     public String getUsername() {
-        return username;
+        return email;
     }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -112,18 +114,6 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
     }
 
     public String getEmail() {
@@ -155,11 +145,11 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return age == user.age && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(name, user.name) && Objects.equals(department, user.department) && Objects.equals(email, user.email);
+        return age == user.age && Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, name, department, email, age);
+        return Objects.hash(id, firstName, lastName, email, age);
     }
 }

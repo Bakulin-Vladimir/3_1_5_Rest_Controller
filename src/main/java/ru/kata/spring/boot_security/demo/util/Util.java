@@ -20,24 +20,22 @@ public class Util {
     }
     @PostConstruct
     private void initMethod(){
-        System.out.println("Пользователи были добавлены в базу данных");
+        System.out.println("!!!Пользователи были добавлены в базу данных!!!");
     }
     private void defaultUserSave() {
         Set<Role> list1 = new HashSet<>();
         list1.add(new Role("ROLE_USER"));
-        userService.saveUser(new User("user"
-                , "Петр"
-                , "IT"
-                , "petr123@mail.ru"
+        userService.saveUser(new User("Петр"
+                , "Петров"
+                , "user@mail.ru"
                 , (byte) 35, "user"
                 , list1));
         Set<Role> list2 = new HashSet<>();
         list2.add(new Role("ROLE_USER"));
         list2.add(new Role("ROLE_ADMIN"));
-        userService.saveUser(new User("admin"
-                , "Олег"
-                , "IT"
-                , "oleg555@mail.ru"
+        userService.saveUser(new User("Олег"
+                , "Иванов"
+                , "admin@mail.ru"
                 , (byte) 35, "admin"
                 , list2));
     }
