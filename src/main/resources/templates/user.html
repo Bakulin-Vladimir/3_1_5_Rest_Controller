@@ -14,7 +14,7 @@
         }
     </style>
 
-    <title>Admin panel</title>
+    <title>User page</title>
 
 </head>
 <body>
@@ -23,7 +23,6 @@
         <div th:each="Role : ${user.getRoles()}" class="col btn-link text-white font-weight-bolder"
              th:text="${user.getEmail()+' with roles: '+Role.getName()}" style="background-color: #343a40;padding-top: 17px;
         padding-bottom: 10px;font-size:120%">
-            Hello!!
         </div>
         <div class="col" style="background-color: #343a40;padding-top: 10px;padding-bottom: 10px;text-align: right;">
             <button type="submit" class="btn btn-link text-white" onclick="window.location.href = '/login'">Logout
@@ -35,7 +34,7 @@
 <div class="container" style="max-width: 1725px;">
     <div class="row">
         <div class="col-2 flex">
-            <button type="button" class="btn btn-primary" disabled style="margin-left:
+            <button type="submit" onclick="window.location.href='/user'" class="btn btn-primary" style="margin-left:
            -15px;margin-right: -15px;margin-top: 15px;text-align: left;">User
             </button>
 

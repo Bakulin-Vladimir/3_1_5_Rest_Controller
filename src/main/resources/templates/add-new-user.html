@@ -25,11 +25,13 @@
 <body>
 <div class="container" style="max-width: 1725px;height: 60px;">
     <div class="row">
-        <div class="col btn-link text-white" style="background-color: #343a40;padding-top: 17px;padding-bottom: 10px;">
-            Hello!!
+        <div class="col btn-link text-white font-weight-bolder"
+             th:text="${useradmin.getEmail()+' with roles: '+role1.getName()+' '+role2.getName()}" style="background-color: #343a40;padding-top: 17px;
+        padding-bottom: 10px;font-size:120%">
         </div>
         <div class="col" style="background-color: #343a40;padding-top: 10px;padding-bottom: 10px;text-align: right;">
-            <button type="button" class="btn btn-link text-white">Logout</button>
+            <button type="submit" class="btn btn-link text-white" onclick="window.location.href='/login'">Logout
+            </button>
         </div>
     </div>
 </div>
@@ -37,13 +39,14 @@
 <div class="container" style="max-width: 1725px;">
     <div class="row">
         <div class="col-2 flex">
-            <button type="button" class="btn btn-primary" style="margin-left:
+            <button type="submit" class="btn btn-primary" onclick="window.location.href='/admin'" style="margin-left:
            -15px;margin-right: -15px;margin-top: 15px;text-align: left;">Admin
             </button>
 
-            <button type="button" class="btn btn-link" style="margin-left:
-           -15px;margin-right: -15px;text-align: left;">User
-            </button>
+            <form method="post" th:action="@{/admin/{id}(id=${useradmin.getId()})}">
+                <input type="submit" value="User" class="btn btn-link" style="margin-left:
+           -15px;margin-right: -15px;text-align: left;"/>
+            </form>
 
         </div>
         <div class="col flex" style="background-color: #f8f9fa;padding-top: 15px;padding-left: 25px;
@@ -54,10 +57,10 @@
 
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link" href="#!">Users table</a>
+                        <a class="nav-link" href="/admin">Users table</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#!">New User</a>
+                        <a class="nav-link active">New User</a>
                     </li>
                 </ul>
                 <div class="row">
@@ -74,44 +77,49 @@
                                     <div class="col">
                                     </div>
                                     <div class="col">
-                                        <form>
+                                        <form th:object="${usernew}" th:action="@{/admin}" method="post">
                                             <p class="text-center font-weight-bold">First name</p>
                                             <div class="form-group" style="margin-top: -40px;margin-bottom: 5px;">
                                                 <label for="exampleInputText1"></label>
-                                                <input type="text" class="form-control" id="exampleInputText1"
+                                                <input type="text" class="form-control" th:field="*{firstName}"
+                                                       id="exampleInputText1"
                                                        placeholder="First name" required>
                                             </div>
                                             <p class="text-center font-weight-bold">Last name</p>
                                             <div class="form-group" style="margin-top: -40px;margin-bottom: 5px;">
                                                 <label for="exampleInputText2"></label>
-                                                <input type="text" class="form-control" id="exampleInputText2"
+                                                <input type="text" class="form-control" th:field="*{lastName}"
+                                                       id="exampleInputText2"
                                                        placeholder="Last name" required>
                                             </div>
                                             <p class="text-center font-weight-bold">Age</p>
                                             <div class="form-group" style="margin-top: -40px;margin-bottom: 5px;">
                                                 <label for="exampleInputAge1"></label>
-                                                <input type="number" class="form-control" id="exampleInputAge1"
+                                                <input type="number" class="form-control" th:field="*{age}"
+                                                       id="exampleInputAge1"
                                                        placeholder="Age" required>
                                             </div>
                                             <p class="text-center font-weight-bold">Email</p>
                                             <div class="form-group" style="margin-top: -40px;margin-bottom: 5px;">
                                                 <label for="exampleInputEmail1"></label>
-                                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                                <input type="email" class="form-control" th:field="*{email}"
+                                                       id="exampleInputEmail1"
                                                        placeholder="Email" required autofocus>
                                             </div>
                                             <p class="text-center font-weight-bold">Password</p>
                                             <div class="form-group" style="margin-top: -40px;margin-bottom: 5px;">
                                                 <label for="exampleInputPassword1"></label>
-                                                <input type="password" class="form-control" id="exampleInputPassword1"
+                                                <input type="password" class="form-control" th:field="*{password}"
+                                                       id="exampleInputPassword1"
                                                        placeholder="Password" required>
                                             </div>
                                             <p class="text-center font-weight-bold">Role</p>
                                             <label class="text-muted"></label>
-                                            <select class="custom-select" multiple
+                                            <select th:field="*{roles}" class="custom-select" multiple
                                                     style="margin-top: -40px;height: 50px;margin-bottom: 10px;"
                                                     required>
-                                                <option value="1">Admin</option>
-                                                <option value="2">User</option>
+                                                <option th:value="ADMIN" th:text="ADMIN">Admin</option>
+                                                <option th:value="USER" th:text="USER">User</option>
                                             </select>
                                             <button type="submit" class="btn btn-primary btn-success center">Add new
                                                 user

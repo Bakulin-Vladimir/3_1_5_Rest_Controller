@@ -36,6 +36,6 @@ public class Util {
                 , "admin@mail.ru"
                 , (byte) 35, "admin"
                 , list2));
-        System.out.println("!!!Пользователи были добавлены в базу данных!!!");
+        System.err.println("!!!Пользователи были добавлены в базу данных!!!");
     }
 }

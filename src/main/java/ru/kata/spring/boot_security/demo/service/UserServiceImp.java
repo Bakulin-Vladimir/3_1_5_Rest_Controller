@@ -6,6 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.model.User;
+
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -36,7 +38,8 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User readUserId(long id) {
-        return userDao.readUserID(id);
+        User user = userDao.readUserID(id);
+        return user;
     }
 
     @Override

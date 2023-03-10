@@ -5,8 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.dao.RoleDao;
 import ru.kata.spring.boot_security.demo.model.Role;
+import ru.kata.spring.boot_security.demo.model.User;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class RoleServiceImp implements RoleService {
@@ -41,5 +45,20 @@ public class RoleServiceImp implements RoleService {
     public void deleteRole(long id) {
         roleDao.deleteRole(id);
 
+    }
+
+    @Override
+    public Set<Role> createRoleAdmin() {
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role("ROLE_ADMIN"));
+        roles.add(new Role("ROLE_USER"));
+        return roles;
+    }
+
+    @Override
+    public Set<Role> createRoleUser() {
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role("ROLE_USER"));
+        return roles;
     }
 }

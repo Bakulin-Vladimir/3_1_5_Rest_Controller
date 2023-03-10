@@ -1,16 +1,21 @@
 package ru.kata.spring.boot_security.demo.dao;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Repository
@@ -18,6 +23,14 @@ import java.util.stream.Collectors;
 public class UserDaoImp implements UserDao {
     @PersistenceContext
     private EntityManager entityManager;
+
+    private RoleService roleService;
+
+    @Autowired
+    public UserDaoImp(RoleService roleService) {
+        this.roleService = roleService;
+    }
+
 
     @Override
     public Set<User> readUsers() {
@@ -33,11 +46,13 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public User readUserID(long id) {
-        return entityManager.find(User.class, id);
+        User user = entityManager.find(User.class, id);
+        return user;
     }
 
     @Override
     public void updateUser(User user) {
+
         entityManager.merge(user);
     }
 

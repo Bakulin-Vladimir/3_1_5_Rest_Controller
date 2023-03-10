@@ -20,11 +20,13 @@
 <body>
 <div class="container" style="max-width: 1725px;height: 60px;">
     <div class="row">
-        <div class="col btn-link text-white" style="background-color: #343a40;padding-top: 17px;padding-bottom: 10px;">
-            Hello!!
+        <div class="col btn-link text-white font-weight-bolder"
+             th:text="${useradmin.getEmail()+' with roles: '+role1.getName()+' '+role2.getName()}"
+             style="background-color: #343a40;padding-top: 17px;padding-bottom: 10px; font-size:120%">Hello!!
         </div>
         <div class="col" style="background-color: #343a40;padding-top: 10px;padding-bottom: 10px;text-align: right;">
-            <button type="button" class="btn btn-link text-white">Logout</button>
+            <button type="submit" class="btn btn-link text-white" onclick="window.location.href = '/login'">Logout
+            </button>
         </div>
     </div>
 </div>
@@ -36,9 +38,10 @@
            -15px;margin-right: -15px;margin-top: 15px;text-align: left;">Admin
             </button>
 
-            <button type="button" class="btn btn-link" style="margin-left:
-           -15px;margin-right: -15px;text-align: left;">User
-            </button>
+            <form method="post" th:action="@{/admin/{id}(id=${useradmin.getId()})}">
+                <input type="submit" value="User" class="btn btn-link" style="margin-left:
+         -15px;margin-right: -15px;text-align: left;"/>
+            </form>
 
         </div>
         <div class="col flex" style="background-color: #f8f9fa;padding-top: 15px;padding-left: 25px;
@@ -52,7 +55,7 @@
                         <a class="nav-link active" href="#!">Users table</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#!">New User</a>
+                        <a class="nav-link" th:href="@{/admin/new/{id}(id=${useradmin.getId()})}">New User</a>
                     </li>
                 </ul>
                 <div class="row">
@@ -64,243 +67,306 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col border-top" style="padding-top: 15px;margin-top: 5px;">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Age</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr class="table-active" style="background-color: rgba(0, 0, 0, 0);">
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>Otto</td>
-                                        <td>Otto</td>
-                                        <td>Otto</td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-info" data-toggle="modal"
-                                                    data-target="#exampleModal1">Edit
-                                            </button>
-                                            <div class="modal fade" id="exampleModal1" tabindex="-1"
-                                                 aria-labelledby="exampleModalLabel1" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel1">Edit
-                                                                user</h5>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <form>
-                                                            <div class="modal-body">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col">
-                                                                    </div>
-                                                                    <div class="col-6">
-                                                                        <p class="text-center font-weight-bold">ID</p>
-                                                                        <fieldset disabled>
-                                                                            <div class="form-group"
-                                                                                 style="margin-top: -40px;margin-bottom: 5px;">
-                                                                                <label for="exampleInputID1"></label>
-                                                                                <input type="number"
-                                                                                       class="form-control"
-                                                                                       id="exampleInputID1">
-                                                                            </div>
-                                                                        </fieldset>
-                                                                        <p class="text-center font-weight-bold">First
-                                                                            name</p>
-                                                                        <div class="form-group"
-                                                                             style="margin-top: -40px;margin-bottom: 5px;">
-                                                                            <label for="exampleInputText1"></label>
-                                                                            <input type="text" class="form-control"
-                                                                                   id="exampleInputText1"
-                                                                                   placeholder="First name" required>
-                                                                        </div>
-                                                                        <p class="text-center font-weight-bold">Last
-                                                                            name</p>
-                                                                        <div class="form-group"
-                                                                             style="margin-top: -40px;margin-bottom: 5px;">
-                                                                            <label for="exampleInputText2"></label>
-                                                                            <input type="text" class="form-control"
-                                                                                   id="exampleInputText2"
-                                                                                   placeholder="Last name" required>
-                                                                        </div>
-                                                                        <p class="text-center font-weight-bold">Age</p>
-                                                                        <div class="form-group"
-                                                                             style="margin-top: -40px;margin-bottom: 5px;">
-                                                                            <label for="exampleInputAge1"></label>
-                                                                            <input type="number" class="form-control"
-                                                                                   id="exampleInputAge1"
-                                                                                   placeholder="Age"
-                                                                                   required>
-                                                                        </div>
-                                                                        <p class="text-center font-weight-bold">
-                                                                            Email</p>
-                                                                        <div class="form-group"
-                                                                             style="margin-top: -40px;margin-bottom: 5px;">
-                                                                            <label for="exampleInputEmail1"></label>
-                                                                            <input type="email" class="form-control"
-                                                                                   id="exampleInputEmail1"
-                                                                                   placeholder="Email" required
-                                                                                   autofocus>
-                                                                        </div>
-                                                                        <p class="text-center font-weight-bold">
-                                                                            Password</p>
-                                                                        <div class="form-group"
-                                                                             style="margin-top: -40px;margin-bottom: 5px;">
-                                                                            <label for="exampleInputPassword1"></label>
-                                                                            <input type="password" class="form-control"
-                                                                                   id="exampleInputPassword1"
-                                                                                   placeholder="Password" required>
-                                                                        </div>
-                                                                        <p class="text-center font-weight-bold">Role</p>
-                                                                        <label class="text-muted"></label>
-                                                                        <select class="custom-select" multiple
-                                                                                style="margin-top: -40px;height: 50px;margin-bottom: 10px;"
-                                                                                required>
-                                                                            <option value="1">Admin</option>
-                                                                            <option value="2">User</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                        data-dismiss="modal">Close
-                                                                </button>
-                                                                <button type="submit" class="btn btn-primary">Edit
-                                                                </button>
-                                                            </div>
-                                                        </form>
+                        <div class="col border-top" style="padding-top: 15px;margin-top: 5px;">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Age</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="user : ${usersList}" class="table-active"
+                                    style="background-color: rgba(0, 0, 0, 0);">
+                                    <td th:text="${user.getId()}"></td>
+                                    <td th:text="${user.getFirstName()}"></td>
+                                    <td th:text="${user.getLastName()}"></td>
+                                    <td th:text="${user.getAge()}"></td>
+                                    <td th:text="${user.getEmail()}"></td>
+                                    <td>
+                                        <table class="table table-borderless"
+                                               style="margin-top: -12px;margin-left: -15px;">
+                                            <tr th:each="Role : ${user.getRoles()}">
+                                                <td th:text="${Role.getName()}"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+
+                                    <td>
+
+
+                                        <button type="button" class="btn btn-primary btn-info" data-toggle="modal"
+                                                th:data-target="'#editModal'+ ${user.getId()}">Edit
+                                        </button>
+                                        <div class="modal fade" th:id="'editModal'+ ${user.getId()}" tabindex="-1"
+                                             aria-labelledby="updatef" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="updatef">Edit user</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-danger" data-toggle="modal"
-                                                    data-target="#exampleModal2">Delete
-                                            </button>
-                                            <div class="modal fade" id="exampleModal2" tabindex="-1"
-                                                 aria-labelledby="exampleModalLabel2" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel2">Delete
-                                                                user</h5>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <form>
-                                                            <div class="modal-body">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col">
-                                                                    </div>
-                                                                    <div class="col-6">
-                                                                        <fieldset disabled>
-                                                                            <p class="text-center font-weight-bold">
-                                                                                ID</p>
-                                                                            <div class="form-group"
-                                                                                 style="margin-top: -40px;margin-bottom: 5px;">
-                                                                                <label for="exampleInputID2"></label>
-                                                                                <input type="number"
-                                                                                       class="form-control"
-                                                                                       id="exampleInputID2">
-                                                                            </div>
-                                                                            <p class="text-center font-weight-bold">
-                                                                                First name</p>
-                                                                            <div class="form-group"
-                                                                                 style="margin-top: -40px;margin-bottom: 5px;">
-                                                                                <label for="exampleInputText4"></label>
-                                                                                <input type="text" class="form-control"
-                                                                                       id="exampleInputText4">
-                                                                            </div>
-                                                                            <p class="text-center font-weight-bold">Last
-                                                                                name</p>
-                                                                            <div class="form-group"
-                                                                                 style="margin-top: -40px;margin-bottom: 5px;">
-                                                                                <label for="exampleInputText5"></label>
-                                                                                <input type="text" class="form-control"
-                                                                                       id="exampleInputText5">
-                                                                            </div>
-                                                                            <p class="text-center font-weight-bold">
-                                                                                Age</p>
-                                                                            <div class="form-group"
-                                                                                 style="margin-top: -40px;margin-bottom: 5px;">
-                                                                                <label for="exampleInputAge2"></label>
-                                                                                <input type="number"
-                                                                                       class="form-control"
-                                                                                       id="exampleInputAge2">
-                                                                            </div>
-                                                                            <p class="text-center font-weight-bold">
-                                                                                Email</p>
-                                                                            <div class="form-group"
-                                                                                 style="margin-top: -40px;margin-bottom: 5px;">
-                                                                                <label for="exampleInputEmail2"></label>
-                                                                                <input type="email" class="form-control"
-                                                                                       id="exampleInputEmail2">
-                                                                            </div>
-                                                                            <p class="text-center font-weight-bold">
-                                                                                Password</p>
-                                                                            <div class="form-group"
-                                                                                 style="margin-top: -40px;margin-bottom: 5px;">
-                                                                                <label for="exampleInputPassword2"></label>
-                                                                                <input type="password"
-                                                                                       class="form-control"
-                                                                                       id="exampleInputPassword2">
-                                                                            </div>
-                                                                            <p class="text-center font-weight-bold">
-                                                                                Role</p>
-                                                                            <label class="text-muted"></label>
-                                                                            <select class="custom-select" multiple
-                                                                                    style="margin-top: -40px;height: 50px;margin-bottom: 10px;">
-                                                                                <option value="1">Admin</option>
-                                                                                <option value="2">User</option>
-                                                                            </select>
-                                                                        </fieldset>
-                                                                    </div>
-                                                                    <div class="col">
-                                                                    </div>
+                                                    <form th:method="patch"
+                                                          th:action="@{/admin/update/{id}(id=${user.getId()})}"
+                                                          style="margin:0 auto; text-align: center; width: 300px"
+                                                          th:object="${user}">
+                                                        <div class="modal-body">
+                                                            <div class="row align-items-center">
+                                                                <div class="col">
                                                                 </div>
+                                                                <div class="col-6">
+                                                                <p class="text-center font-weight-bold">ID</p>
+                                                                <fieldset disabled>
+                                                                    <div class="form-group"
+                                                                         style="margin-top: -40px;margin-bottom: 5px;">
+                                                                        <label for="id"></label>
+                                                                        <input th:type="number"
+                                                                               th:value="${user.id}"
+                                                                               th:name="id"
+                                                                               class="form-control"
+                                                                               id="id" disabled/>
+                                                                    </div>
+                                                                </fieldset>
+                                                                <p class="text-center font-weight-bold">First name</p>
+                                                                <div class="form-group"
+                                                                     style="margin-top: -40px;margin-bottom: 5px;">
+
+                                                                    <label for="firstname"></label>
+                                                                    <input th:type="text"
+                                                                           class="form-control"
+                                                                           id="firstname"
+                                                                           th:value="${user.firstName}"
+                                                                           th:name="firstName"
+                                                                           required/>
+
+                                                                </div>
+                                                                <p class="text-center font-weight-bold">Last name</p>
+                                                                <div class="form-group"
+                                                                     style="margin-top: -40px;margin-bottom: 5px;">
+
+                                                                    <label for="lastname"></label>
+                                                                    <input th:type="text"
+                                                                           class="form-control"
+                                                                           id="lastname"
+                                                                           th:value="${user.lastName}"
+                                                                           th:name="lastName"
+                                                                           required/>
+
+                                                                </div>
+                                                                <p class="text-center font-weight-bold">Age</p>
+                                                                <div class="form-group"
+                                                                     style="margin-top: -40px;margin-bottom: 5px;">
+
+                                                                    <label for="age"></label>
+                                                                    <input th:type="number"
+                                                                           class="form-control" size="1"
+                                                                           id="age"
+                                                                           min="1" max="150" step="1"
+                                                                           th:value="${user.age}"
+                                                                           th:name="age"
+                                                                           required/>
+
+                                                                </div>
+                                                                <p class="text-center font-weight-bold">Email</p>
+                                                                <div class="form-group"
+                                                                     style="margin-top: -40px;margin-bottom: 5px;">
+
+                                                                    <label for="email"></label>
+                                                                    <input th:type="email"
+                                                                           class="form-control"
+                                                                           id="email"
+                                                                           th:value="${user.email}"
+                                                                           th:name="email"
+                                                                           required autofocus/>
+
+                                                                </div>
+                                                                <p class="text-center font-weight-bold">Password</p>
+                                                                <div class="form-group"
+                                                                     style="margin-top: -40px;margin-bottom: 5px;">
+
+                                                                    <label for="password"></label>
+                                                                    <input th:type="password"
+                                                                           class="form-control"
+                                                                           id="password"
+                                                                           th:value="${user.password}"
+                                                                           th:name="password"
+                                                                           required/>
+
+                                                                </div>
+                                                                <p class="text-center font-weight-bold">Role</p>
+                                                                <label for="role" class="text-muted"></label>
+                                                                <select class="custom-select" multiple
+                                                                        th:value="${roles}" th:name="roles" id="role"
+                                                                        style="margin-top: -40px;height: 50px;margin-bottom: 10px;"
+                                                                        required>
+                                                                    <option th:value="ADMIN" th:text="ADMIN">ADMIN
+                                                                    </option>
+                                                                    <option th:value="USER" th:text="USER">USER</option>
+                                                                </select>
                                                             </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                        data-dismiss="modal">Close
-                                                                </button>
-                                                                <button type="submit"
-                                                                        class="btn btn-primary btn-danger">Delete
-                                                                </button>
+                                                            <div class="col">
                                                             </div>
-                                                        </form>
-                                                    </div>
+                                                        </div>
                                                 </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                                </div>
+                                                </form>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </div>
                         </div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-danger" data-toggle="modal"
+                                    th:data-target="'#deleteModal'+ ${user.getId()}">Delete
+                            </button>
+                            <div class="modal fade" th:id="'deleteModal'+ ${user.getId()}" tabindex="-1"
+                                 aria-labelledby="deletef" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deletef">Delete user</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form th:method="DELETE"
+                                              th:action="@{/admin/delete/{id}(id=${user.getId()})}"
+                                              th:object="${user}">
+                                            <div class="modal-body">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                    </div>
+                                                    <div class="col-6">
+                                                    <fieldset disabled>
+                                                        <p class="text-center font-weight-bold">ID</p>
+                                                        <div class="form-group"
+                                                             style="margin-top: -40px;margin-bottom: 5px;">
+
+                                                            <label for="ID1"></label>
+                                                            <input th:type="number"
+                                                                   class="form-control"
+                                                                   th:value="${user.id}"
+                                                                   th:name="id" id="ID1"
+                                                                   disabled/>
+
+                                                        </div>
+                                                        <p class="text-center font-weight-bold">First name</p>
+                                                        <div class="form-group"
+                                                             style="margin-top: -40px;margin-bottom: 5px;">
+
+                                                            <label for="firstname2"></label>
+                                                            <input th:type="text"
+                                                                   th:value="${user.firstName}"
+                                                                   th:name="firstName"
+                                                                   class="form-control"
+                                                                   id="firstname2" disabled/>
+
+                                                        </div>
+                                                        <p class="text-center font-weight-bold">Last name</p>
+                                                        <div class="form-group"
+                                                             style="margin-top: -40px;margin-bottom: 5px;">
+
+                                                            <label for="lastname2"></label>
+                                                            <input th:type="text"
+                                                                   th:value="${user.lastName}"
+                                                                   th:name="lastName"
+                                                                   class="form-control"
+                                                                   id="lastname2" disabled/>
+
+                                                        </div>
+                                                        <p class="text-center font-weight-bold">Age</p>
+                                                        <div class="form-group"
+                                                             style="margin-top: -40px;margin-bottom: 5px;">
+
+                                                            <label for="age2"></label>
+                                                            <input th:type="number" size="1"
+                                                                   th:name="age"
+                                                                   min="1" max="150" step="1"
+                                                                   th:value="${user.age}"
+                                                                   class="form-control"
+                                                                   id="age2" disabled/>
+
+                                                        </div>
+                                                        <p class="text-center font-weight-bold">Email</p>
+                                                        <div class="form-group"
+                                                             style="margin-top: -40px;margin-bottom: 5px;">
+
+                                                            <label for="email2"></label>
+                                                            <input th:type="email"
+                                                                   th:value="${user.email}"
+                                                                   th:name="email"
+                                                                   class="form-control"
+                                                                   id="email2" disabled/>
+
+                                                        </div>
+                                                        <p class="text-center font-weight-bold">Password</p>
+                                                        <div class="form-group"
+                                                             style="margin-top: -40px;margin-bottom: 5px;">
+
+                                                            <label for="password2"></label>
+                                                            <input th:type="password"
+                                                                   th:value="${user.password}"
+                                                                   th:name="password"
+                                                                   class="form-control"
+                                                                   id="password2" disabled/>
+
+                                                        </div>
+                                                        <p class="text-center font-weight-bold">Role</p>
+                                                        <label for="role2" class="text-muted"></label>
+                                                        <select class="custom-select" multiple th:name="roles" id="role2"
+                                                                th:value="${roles}"
+                                                                style="margin-top: -40px;height: 50px;margin-bottom: 10px;"
+                                                                disabled>
+                                                            <option th:value="ADMIN" th:text="ADMIN">ADMIN</option>
+                                                            <option th:value="USER" th:text="USER">USER</option>
+                                                        </select>
+                                                    </fieldset>
+                                                </div>
+                                                <div class="col">
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" class="btn btn-primary btn-danger">Delete</button>
+                                    </div>
+
+                                    </form>
+                                </div>
+                            </div>
                     </div>
+                    </td>
+
+
+                    </tr>
+                    </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+
     </div>
+
 </div>
+
+</div>
+</div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -311,6 +377,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
         integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
         crossorigin="anonymous"></script>
-
 </body>
 </html>

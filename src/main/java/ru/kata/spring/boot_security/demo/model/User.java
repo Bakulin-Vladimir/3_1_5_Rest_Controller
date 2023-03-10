@@ -17,19 +17,19 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @NotNull
+
     @Column(name = "first_Name")
     private String firstName;
-    @NotNull
+
     @Column(name = "last_Name")
     private String lastName;
-    @NotNull
+
     @Column(name = "email")
     private String email;
-    @NotNull
+
     @Column(name = "age")
     private byte age;
-    @NotNull
+
     @Column(name = "Password")
     private String password;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -42,6 +42,16 @@ public class User implements UserDetails {
     }
 
     public User(String firstName, String lastName, String email, byte age, String password, Set<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.age = age;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(Long id, String firstName, String lastName, String email, byte age, String password, Set<Role> roles) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
