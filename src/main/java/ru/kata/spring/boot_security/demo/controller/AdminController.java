@@ -13,6 +13,7 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,10 +33,9 @@ public class AdminController {
     }
 
     @GetMapping()
-    public String getUsers(Model model) {
+    public String getUsers(Model model, Principal principal) {
         //Получим всех людей из DAO и передадим на отображение в представлении
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String email = userDetails.getUsername();
+        String email = principal.getName();
         User user = userService.findUserByEmail(email);
         Set<Role> roles = user.getRoles();
         List<Role> collect = roles.stream().collect(Collectors.toList());
@@ -87,14 +87,6 @@ public class AdminController {
         userService.saveUser(user);
         return "redirect:/admin";
     }
-
-//    @GetMapping("/{id}/edit")
-//    public String edit(@PathVariable("id") long id, Model model) {
-//        Set<Role> roles = roleService.readRoles();
-//        model.addAttribute("allRoles", roles);
-//        model.addAttribute("user", userService.readUserId(id));
-//        return "edit";
-//    }
 
     @PatchMapping("/update/{id}")
     public String update(@ModelAttribute("user") User user,
