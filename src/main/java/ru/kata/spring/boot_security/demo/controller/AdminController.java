@@ -19,12 +19,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/authorized")
 public class AdminController {
 
     private UserService userService;
 
     private RoleService roleService;
+
+    private static long idAdmin;
 
     @Autowired
     public AdminController(UserService userService, RoleService roleService) {
@@ -32,63 +34,55 @@ public class AdminController {
         this.roleService = roleService;
     }
 
+
     @GetMapping()
     public String getUsers(Model model, Principal principal) {
         //Получим всех людей из DAO и передадим на отображение в представлении
-        String email = principal.getName();
-        User user = userService.findUserByEmail(email);
-        Set<Role> roles = user.getRoles();
-        List<Role> collect = roles.stream().collect(Collectors.toList());
-        Role role1 = collect.get(0);
-        Role role2 = collect.get(1);
+        User user = userService.findUserByEmail(principal.getName());
+        //Получим ID админа, чтобы можно было его редактировать
+        idAdmin = user.getId();
         model.addAttribute("usersList", userService.readUsers());
         model.addAttribute("useradmin", user);
-        model.addAttribute("role1", role1);
-        model.addAttribute("role2", role2);
         model.addAttribute("roles", roleService.readRoles());
         return "admin";
     }
 
-    @PostMapping("/{id}")
+    @GetMapping("/admin")
+    public String getUsers(Model model) {
+        //Получим всех людей из DAO и передадим на отображение в представлении
+        model.addAttribute("usersList", userService.readUsers());
+        model.addAttribute("useradmin", userService.readUserId(idAdmin));
+        model.addAttribute("roles", roleService.readRoles());
+        return "admin";
+    }
+
+    @PostMapping("admin/{id}")
     public String showIdUser(@PathVariable("id") long id, Model model) {
         //Получим одного человека по id из DAO и передадим на отображение в представление
-        User user = userService.readUserId(id);
-        Set<Role> roles = user.getRoles();
-        List<Role> collect = roles.stream().collect(Collectors.toList());
-        Role role1 = collect.get(0);
-        Role role2 = collect.get(1);
-        model.addAttribute("useradmin", user);
-        model.addAttribute("role1", role1);
-        model.addAttribute("role2", role2);
+        model.addAttribute("useradmin", userService.readUserId(id));
         return "admin-user";
     }
 
-    @GetMapping("/new/{id}")
+    @GetMapping("admin/new/{id}")
     public String newUser(@PathVariable("id") long id, Model model) {
-        User user = userService.readUserId(id);
-        Set<Role> roles = user.getRoles();
-        List<Role> collect = roles.stream().collect(Collectors.toList());
-        Role role1 = collect.get(0);
-        Role role2 = collect.get(1);
-        model.addAttribute("useradmin", user);
-        model.addAttribute("role1", role1);
-        model.addAttribute("role2", role2);
+        model.addAttribute("useradmin", userService.readUserId(id));
         model.addAttribute("usernew", new User());
         return "add-new-user";
     }
 
-    @PostMapping()
+    @PostMapping("/admin")
     public String saveUser(@ModelAttribute("usernew") User user) {
         if (user.getRoles().stream().anyMatch(role -> role.getName().endsWith("ADMIN"))) {
             user.setRoles(roleService.createRoleAdmin());
         } else {
             user.setRoles(roleService.createRoleUser());
         }
+        //Добавление нового пользователя в базу данных
         userService.saveUser(user);
-        return "redirect:/admin";
+        return "redirect:/authorized/admin";
     }
 
-    @PatchMapping("/update/{id}")
+    @PatchMapping("admin/update/{id}")
     public String update(@ModelAttribute("user") User user,
                          @PathVariable("id") long id) {
         if (user.getRoles().stream().anyMatch(role -> role.getName().endsWith("ADMIN"))) {
@@ -97,12 +91,13 @@ public class AdminController {
             user.setRoles(roleService.createRoleUser());
         }
         userService.updateUser(user);
-        return "redirect:/admin";
+        return "redirect:/authorized/admin";
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("admin/delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
         userService.deleteUser(id);
-        return "redirect:/admin";
+        return "redirect:/authorized/admin";
     }
+
 }

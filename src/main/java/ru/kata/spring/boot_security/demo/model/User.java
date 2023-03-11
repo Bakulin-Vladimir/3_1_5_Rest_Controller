@@ -32,7 +32,7 @@ public class User implements UserDetails {
 
     @Column(name = "Password")
     private String password;
-    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -145,6 +145,15 @@ public class User implements UserDetails {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getUserRoleToString() {
+        StringBuilder builder = new StringBuilder();
+        for (Role role : getRoles()) {
+            builder.append(role.getName()).append(",");
+        }
+        return builder.toString().replaceAll(",", " ").replaceAll("ROLE_", "");
+    }
+
 
     @Override
     public boolean equals(Object o) {

@@ -23,27 +23,29 @@
 
 </head>
 <body>
+<!--Шапка сайта-->
 <div class="container" style="max-width: 1725px;height: 60px;">
     <div class="row">
-        <div class="col btn-link text-white font-weight-bolder"
-             th:text="${useradmin.getEmail()+' with roles: '+role1.getName()+' '+role2.getName()}" style="background-color: #343a40;padding-top: 17px;
+        <div class="col text-white" style="background-color: #343a40;padding-top: 17px;
         padding-bottom: 10px;font-size:120%">
+            <b class="font-weight-bold" th:text="${useradmin.getEmail()}">email</b> with roles:
+            <span th:text="${useradmin.getUserRoleToString()}">Role</span>
         </div>
         <div class="col" style="background-color: #343a40;padding-top: 10px;padding-bottom: 10px;text-align: right;">
-            <button type="submit" class="btn btn-link text-white" onclick="window.location.href='/login'">Logout
+            <button type="submit" class="btn btn-link text-white" onclick="window.location.href = '/login'">Logout
             </button>
         </div>
     </div>
 </div>
-
+<!--Тело сайта-->
 <div class="container" style="max-width: 1725px;">
     <div class="row">
         <div class="col-2 flex">
-            <button type="submit" class="btn btn-primary" onclick="window.location.href='/admin'" style="margin-left:
+            <button type="submit" class="btn btn-primary" onclick="window.location.href='/authorized/admin'" style="margin-left:
            -15px;margin-right: -15px;margin-top: 15px;text-align: left;">Admin
             </button>
 
-            <form method="post" th:action="@{/admin/{id}(id=${useradmin.getId()})}">
+            <form method="post" th:action="@{/authorized/admin/{id}(id=${useradmin.getId()})}">
                 <input type="submit" value="User" class="btn btn-link" style="margin-left:
            -15px;margin-right: -15px;text-align: left;"/>
             </form>
@@ -57,7 +59,7 @@
 
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin">Users table</a>
+                        <a class="nav-link" href="/authorized/admin">Users table</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active">New User</a>
@@ -77,7 +79,7 @@
                                     <div class="col">
                                     </div>
                                     <div class="col">
-                                        <form th:object="${usernew}" th:action="@{/admin}" method="post">
+                                        <form th:object="${usernew}" th:action="@{/authorized/admin}" method="post">
                                             <p class="text-center font-weight-bold">First name</p>
                                             <div class="form-group" style="margin-top: -40px;margin-bottom: 5px;">
                                                 <label for="exampleInputText1"></label>

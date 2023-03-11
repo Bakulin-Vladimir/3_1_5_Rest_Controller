@@ -18,11 +18,13 @@
 
 </head>
 <body>
+<!--Шапка сайта-->
 <div class="container" style="max-width: 1725px;height: 60px;">
     <div class="row">
-        <div class="col btn-link text-white font-weight-bolder"
-             th:text="${useradmin.getEmail()+' with roles: '+role1.getName()+' '+role2.getName()}"
-             style="background-color: #343a40;padding-top: 17px;padding-bottom: 10px; font-size:120%">Hello!!
+        <div class="col text-white" style="background-color: #343a40;padding-top: 17px;
+        padding-bottom: 10px;font-size:120%">
+            <b class="font-weight-bold" th:text="${useradmin.getEmail()}">email</b> with roles:
+            <span th:text="${useradmin.getUserRoleToString()}">Role</span>
         </div>
         <div class="col" style="background-color: #343a40;padding-top: 10px;padding-bottom: 10px;text-align: right;">
             <button type="submit" class="btn btn-link text-white" onclick="window.location.href = '/login'">Logout
@@ -30,7 +32,7 @@
         </div>
     </div>
 </div>
-
+<!--Тело сайта-->
 <div class="container" style="max-width: 1725px;">
     <div class="row">
         <div class="col-2 flex">
@@ -38,7 +40,7 @@
            -15px;margin-right: -15px;margin-top: 15px;text-align: left;">Admin
             </button>
 
-            <form method="post" th:action="@{/admin/{id}(id=${useradmin.getId()})}">
+            <form method="post" th:action="@{/authorized/admin/{id}(id=${useradmin.getId()})}">
                 <input type="submit" value="User" class="btn btn-link" style="margin-left:
          -15px;margin-right: -15px;text-align: left;"/>
             </form>
@@ -55,7 +57,7 @@
                         <a class="nav-link active" href="#!">Users table</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/admin/new/{id}(id=${useradmin.getId()})}">New User</a>
+                        <a class="nav-link" th:href="@{/authorized/admin/new/{id}(id=${useradmin.getId()})}">New User</a>
                     </li>
                 </ul>
                 <div class="row">
@@ -89,14 +91,7 @@
                                         <td th:text="${user.getLastName()}"></td>
                                         <td th:text="${user.getAge()}"></td>
                                         <td th:text="${user.getEmail()}"></td>
-                                        <td>
-                                            <table class="table table-borderless"
-                                                   style="margin-top: -12px;margin-left: -15px;">
-                                                <tr th:each="Role : ${user.getRoles()}">
-                                                    <td th:text="${Role.getName()}"></td>
-                                                </tr>
-                                            </table>
-                                        </td>
+                                        <td th:text="${user.getUserRoleToString()}"></td>
                                         <td>
                                             <button type="button" class="btn btn-primary btn-info" data-toggle="modal"
                                                     th:data-target="'#editModal'+ ${user.getId()}">Edit
@@ -113,7 +108,7 @@
                                                             </button>
                                                         </div>
                                                         <form th:method="patch"
-                                                              th:action="@{/admin/update/{id}(id=${user.getId()})}"
+                                                              th:action="@{/authorized/admin/update/{id}(id=${user.getId()})}"
                                                               th:object="${user}">
                                                             <div class="modal-body">
                                                                 <div class="row align-items-center">
@@ -241,7 +236,7 @@
                                                             </button>
                                                         </div>
                                                         <form th:method="DELETE"
-                                                              th:action="@{/admin/delete/{id}(id=${user.getId()})}"
+                                                              th:action="@{/authorized/admin/delete/{id}(id=${user.getId()})}"
                                                               th:object="${user}">
                                                             <div class="modal-body">
                                                                 <div class="row align-items-center">

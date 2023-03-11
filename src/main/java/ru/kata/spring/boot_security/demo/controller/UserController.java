@@ -31,10 +31,7 @@ public class UserController {
         //Получим одного пользователя и передадим на отображение в представлении
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = userDetails.getUsername();
-        User user = userService.findUserByEmail(email);
-        Set<Role> roles = user.getRoles();
-//        user.setRoles(roleService.changeSetRole(roles));
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.findUserByEmail(email));
         return "user";
     }
 
