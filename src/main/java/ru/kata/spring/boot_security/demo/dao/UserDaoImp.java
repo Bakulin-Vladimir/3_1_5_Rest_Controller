@@ -24,49 +24,41 @@ public class UserDaoImp implements UserDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private RoleService roleService;
-
-    @Autowired
-    public UserDaoImp(RoleService roleService) {
-        this.roleService = roleService;
-    }
-
-
-    @Override
-    public Set<User> readUsers() {
-        List<User> userList = entityManager.createQuery("select u from User u left join fetch u.roles").getResultList();
-        Set<User> collect = userList.stream().collect(Collectors.toSet());
-        return collect;
+    public UserDaoImp(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Override
-    public void saveUser(User user) {
+    public User findUserById(long id) {
+        return entityManager.find(User.class, id);
+    }
+
+    @Override
+    public void create(User user) {
         entityManager.persist(user);
     }
 
     @Override
-    public User readUserID(long id) {
-        User user = entityManager.find(User.class, id);
+    public User findUserByEmail(String email) {
+        TypedQuery<User> paramemail = entityManager.createQuery("select u from User u where u.email=:paramemail", User.class)
+                .setParameter("paramemail", email);
+        User user = paramemail.getResultList().stream().findFirst().orElse(null);
         return user;
     }
 
     @Override
-    public void updateUser(User user) {
-
-        entityManager.merge(user);
+    public Set<User> findAllUsers() {
+        List<User> userList = entityManager.createQuery("select user from User user",User.class).getResultList();
+        return userList.stream().collect(Collectors.toSet());
     }
 
     @Override
-    public void deleteUser(long id) {
-        User user = entityManager.find(User.class, id);
+    public void delete(User user) {
         entityManager.remove(user);
     }
 
     @Override
-    public User findUserByEmail(String email) {
-        TypedQuery<User> paramemail = entityManager.createQuery("select u from User u left join fetch u.roles where u.email=:paramemail", User.class)
-                .setParameter("paramemail", email);
-        User user = paramemail.getResultList().stream().findFirst().orElse(null);
-        return user;
+    public void update(User user) {
+        entityManager.merge(user);
     }
 }

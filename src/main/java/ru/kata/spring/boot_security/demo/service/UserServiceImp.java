@@ -2,60 +2,66 @@ package ru.kata.spring.boot_security.demo.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
 public class UserServiceImp implements UserService {
-    private UserDao userDao;
+    private final UserDao userDao;
+    private final PasswordEncoder passwordEncoder;
 
-    private RoleService roleService;
-
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImp(UserDao userDao, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public UserServiceImp(UserDao userDao, @Lazy PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
-        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public Set<User> readUsers() {
-        return userDao.readUsers();
+    public User findUserById(long id) {
+        return userDao.findUserById(id);
     }
 
     @Override
-    public void saveUser(User user) {
+    public void create(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDao.saveUser(user);
-    }
-
-    @Override
-    public User readUserId(long id) {
-        User user = userDao.readUserID(id);
-        return user;
-    }
-
-    @Override
-    public void updateUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDao.updateUser(user);
-    }
-
-    @Override
-    public void deleteUser(long id) {
-        userDao.deleteUser(id);
+        userDao.create(user);
     }
 
     @Override
     public User findUserByEmail(String email) {
         return userDao.findUserByEmail(email);
+    }
+
+
+    @Override
+    public Set<User> findAllUsers() {
+        return userDao.findAllUsers();
+    }
+
+    @Override
+    public void update(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userDao.update(user);
+    }
+
+    @Override
+    public void delete(long id) {
+        User user = userDao.findUserById(id);
+        if (user != null) {
+            userDao.delete(user);
+        }
     }
 
 }

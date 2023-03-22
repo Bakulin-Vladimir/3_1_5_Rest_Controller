@@ -31,7 +31,7 @@ public class RoleDaoImp implements RoleDao {
 
     @Override
     public Set<Role> readRoles() {
-        List<Role> listRole = entityManager.createQuery("select r from Role r left join fetch r.users").getResultList();
+        List<Role> listRole = entityManager.createQuery("select role from Role role", Role.class).getResultList();
         Set<Role> role = listRole.stream().collect(Collectors.toSet());
         return role;
     }

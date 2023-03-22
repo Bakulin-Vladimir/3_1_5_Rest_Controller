@@ -12,6 +12,7 @@ import java.util.Set;
 
 @Component
 public class Util {
+
     private UserService userService;
 
     @Autowired
@@ -19,22 +20,23 @@ public class Util {
         this.userService = userService;
     }
 
+
     @PostConstruct
-    private void initMethod() {
+    public void method() {
         Set<Role> list1 = new HashSet<>();
         list1.add(new Role("ROLE_USER"));
-        userService.saveUser(new User("Петр"
+        userService.create(new User("Петр"
                 , "Петров"
-                , "user@mail.ru"
-                , (byte) 35, "user"
+                , "user"
+                , (byte) 35, "user@mail.ru"
                 , list1));
         Set<Role> list2 = new HashSet<>();
         list2.add(new Role("ROLE_USER"));
         list2.add(new Role("ROLE_ADMIN"));
-        userService.saveUser(new User("Олег"
+        userService.create(new User("Олег"
                 , "Иванов"
-                , "admin@mail.ru"
-                , (byte) 35, "admin"
+                , "admin"
+                , (byte) 35, "admin@mail.ru"
                 , list2));
         System.err.println("!!!Пользователи были добавлены в базу данных!!!");
     }

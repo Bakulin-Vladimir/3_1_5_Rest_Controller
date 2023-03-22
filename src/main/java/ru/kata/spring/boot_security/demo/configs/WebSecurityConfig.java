@@ -29,13 +29,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors().disable()
+                .csrf().disable()
                 // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
                 //страницы аутентификации доступна всем
                 .antMatchers("/login").permitAll()
 //                 защищенные URL
-                .antMatchers("/user").access("hasAnyRole('USER','ADMIN')")
-                .antMatchers("/authorized/**").access("hasRole('ADMIN')")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
