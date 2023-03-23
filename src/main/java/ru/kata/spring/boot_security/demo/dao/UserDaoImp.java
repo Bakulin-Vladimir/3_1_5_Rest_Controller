@@ -40,7 +40,7 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public User findUserByEmail(String email) {
-        TypedQuery<User> paramemail = entityManager.createQuery("select u from User u where u.email=:paramemail", User.class)
+        TypedQuery<User> paramemail = entityManager.createQuery("select u from User u join fetch u.roles where u.email=:paramemail", User.class)
                 .setParameter("paramemail", email);
         User user = paramemail.getResultList().stream().findFirst().orElse(null);
         return user;
@@ -48,7 +48,7 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public Set<User> findAllUsers() {
-        List<User> userList = entityManager.createQuery("select user from User user",User.class).getResultList();
+        List<User> userList = entityManager.createQuery("select user from User user join fetch user.roles",User.class).getResultList();
         return userList.stream().collect(Collectors.toSet());
     }
 
