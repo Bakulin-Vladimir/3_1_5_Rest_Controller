@@ -21,7 +21,7 @@ async function createUser() {
         for (let i = 0; i < form.roles.options.length; i++) {
             if (form.roles.options[i].selected) newUserRoles.push({
                 id : form.roles.options[i].value,
-                name : form.roles.options[i].name
+                name : form.roles.options[i].text
             })
         }
         fetch("http://localhost:8080/api/admin", {
