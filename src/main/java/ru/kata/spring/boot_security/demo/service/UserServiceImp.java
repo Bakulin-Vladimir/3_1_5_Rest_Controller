@@ -23,7 +23,7 @@ public class UserServiceImp implements UserService {
 
 
     @Autowired
-    public UserServiceImp(UserDao userDao, @Lazy PasswordEncoder passwordEncoder) {
+    public UserServiceImp(UserDao userDao, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
     }

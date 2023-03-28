@@ -22,7 +22,7 @@ public class Util {
 
 
     @PostConstruct
-    public void method() {
+    private void method() {
         Set<Role> list1 = new HashSet<>();
         list1.add(new Role("ROLE_USER"));
         userService.create(new User("Петр"
